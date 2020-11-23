@@ -6,6 +6,12 @@
 
 #IncludeRegexTransform: 
 
+/home/aiden/CLionProjects/Quadtree/QuadTree.h
+iostream
+-
+cmath
+-
+
 /home/aiden/CLionProjects/Quadtree/main.cpp
 iostream
 -
@@ -15,4 +21,8 @@ fstream
 -
 filesystem
 -
+vector
+-
+QuadTree.h
+/home/aiden/CLionProjects/Quadtree/QuadTree.h
 

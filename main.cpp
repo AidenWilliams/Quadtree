@@ -17,6 +17,7 @@ bool powerof4(unsigned n){
 
 int main(int argc, char* args[]) {
     std::vector<Node> readFile;
+    auto it = readFile.begin();
     std::fstream input;
     bool isTxt;
     std::string line;
@@ -54,12 +55,19 @@ int main(int argc, char* args[]) {
             exit(EXIT_FAILURE);
         }
 
-        if(powerof4(width)){
+        if(!powerof4(width)){
             std::cout << "Program input width and height must conform to x^4" << std::endl;
             exit(EXIT_FAILURE);
         }
 
-        Quad *Q = new Quad();
+        Quad *quadtree = new Quad(readFile.front().pos, readFile.back().pos);
+        quadtree->insert(&readFile.front());
+
+        while(width != 1){
+
+            width /= 2;
+            height /= 2;
+        }
 
 
     }else{
