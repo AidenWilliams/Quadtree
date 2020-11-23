@@ -2,6 +2,7 @@
 #include <cmath>
 #include <fstream>
 #include <filesystem>
+#include <vector>
 
 //https://www.geeksforgeeks.org/find-whether-a-given-number-is-a-power-of-4-or-not/
 // returns true if n is power of four
@@ -14,7 +15,9 @@ bool powerof4(unsigned n)
     return i == trunc(i);
 }
 
+
 int main(int argc, char* args[]) {
+    std::vector<char> file;
     std::fstream input;
     bool isTxt;
     char ch;
@@ -39,26 +42,27 @@ int main(int argc, char* args[]) {
         //Verify input is a square and x^4
         while (true) {
             input >> ch;
+            file.emplace_back(ch);
             if (input.eof()) break;
 
             if(height == 0) ++width;
 
             if(ch == '\n') ++height;
         }
+        input.close();
 
         if(width != height){
             std::cout << "Program input must be a square!" << std::endl;
             exit(EXIT_FAILURE);
         }
 
-        if(powerof4(++width)){
+        if(powerof4(width + 1)){
             std::cout << "Program input width and height must conform to x^4" << std::endl;
             exit(EXIT_FAILURE);
         }
 
 
 
-        input.close();
     }else{
         //iscsv
     }

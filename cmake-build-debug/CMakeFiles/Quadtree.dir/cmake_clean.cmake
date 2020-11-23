@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Quadtree.dir/QuadTree.cpp.o"
   "CMakeFiles/Quadtree.dir/main.cpp.o"
   "Quadtree"
   "Quadtree.pdb"

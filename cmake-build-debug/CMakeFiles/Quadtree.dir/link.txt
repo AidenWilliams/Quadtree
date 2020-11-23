@@ -1,1 +1,1 @@
-/usr/bin/c++  -march=native -g   CMakeFiles/Quadtree.dir/main.cpp.o  -o Quadtree 
+/usr/bin/c++  -march=native -g   CMakeFiles/Quadtree.dir/main.cpp.o CMakeFiles/Quadtree.dir/QuadTree.cpp.o  -o Quadtree 

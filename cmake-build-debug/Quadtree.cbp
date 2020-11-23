@@ -82,6 +82,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/aiden/CLionProjects/Quadtree/QuadTree.cpp">
+			<Option target="Quadtree"/>
+		</Unit>
+		<Unit filename="/home/aiden/CLionProjects/Quadtree/QuadTree.h">
+			<Option target="Quadtree"/>
+		</Unit>
 		<Unit filename="/home/aiden/CLionProjects/Quadtree/main.cpp">
 			<Option target="Quadtree"/>
 		</Unit>

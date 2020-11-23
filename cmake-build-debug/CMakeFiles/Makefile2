@@ -94,12 +94,12 @@ clean: CMakeFiles/Quadtree.dir/clean
 CMakeFiles/Quadtree.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Quadtree.dir/build.make CMakeFiles/Quadtree.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Quadtree.dir/build.make CMakeFiles/Quadtree.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aiden/CLionProjects/Quadtree/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target Quadtree"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aiden/CLionProjects/Quadtree/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target Quadtree"
 .PHONY : CMakeFiles/Quadtree.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Quadtree.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aiden/CLionProjects/Quadtree/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aiden/CLionProjects/Quadtree/cmake-build-debug/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Quadtree.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aiden/CLionProjects/Quadtree/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/Quadtree.dir/rule

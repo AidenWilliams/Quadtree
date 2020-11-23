@@ -143,6 +143,33 @@ Quadtree/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Quadtree.dir/build.make CMakeFiles/Quadtree.dir/build
 .PHONY : Quadtree/fast
 
+QuadTree.o: QuadTree.cpp.o
+
+.PHONY : QuadTree.o
+
+# target to build an object file
+QuadTree.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Quadtree.dir/build.make CMakeFiles/Quadtree.dir/QuadTree.cpp.o
+.PHONY : QuadTree.cpp.o
+
+QuadTree.i: QuadTree.cpp.i
+
+.PHONY : QuadTree.i
+
+# target to preprocess a source file
+QuadTree.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Quadtree.dir/build.make CMakeFiles/Quadtree.dir/QuadTree.cpp.i
+.PHONY : QuadTree.cpp.i
+
+QuadTree.s: QuadTree.cpp.s
+
+.PHONY : QuadTree.s
+
+# target to generate assembly for a file
+QuadTree.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Quadtree.dir/build.make CMakeFiles/Quadtree.dir/QuadTree.cpp.s
+.PHONY : QuadTree.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -179,6 +206,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Quadtree"
+	@echo "... QuadTree.o"
+	@echo "... QuadTree.i"
+	@echo "... QuadTree.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
