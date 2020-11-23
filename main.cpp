@@ -3,11 +3,11 @@
 #include <fstream>
 #include <filesystem>
 #include <vector>
+#include "QuadTree.h"
 
 //https://www.geeksforgeeks.org/find-whether-a-given-number-is-a-power-of-4-or-not/
 // returns true if n is power of four
-bool powerof4(unsigned n)
-{
+bool powerof4(unsigned n){
     // find log4(n)
     double i = log(n) / log(4);
 
@@ -15,12 +15,11 @@ bool powerof4(unsigned n)
     return i == trunc(i);
 }
 
-
 int main(int argc, char* args[]) {
-    std::vector<char> file;
+    std::vector<Node> readFile;
     std::fstream input;
     bool isTxt;
-    char ch;
+    std::string line;
     int width = 0, height = 0;
 
     if(argc != 2){
@@ -31,7 +30,7 @@ int main(int argc, char* args[]) {
     isTxt = std::string (args[1]).back() == 't';
 
     std::filesystem::path inputDirectory = std::filesystem::current_path() / args[1];
-    std::string s = inputDirectory.string();
+
     if(isTxt){
         input.open(inputDirectory.string(), std::ios::in);
 
@@ -39,16 +38,15 @@ int main(int argc, char* args[]) {
             perror ("Error encountered: ");
             exit(EXIT_FAILURE);
         }
-        //Verify input is a square and x^4
-        while (true) {
-            input >> ch;
-            file.emplace_back(ch);
-            if (input.eof()) break;
 
-            if(height == 0) ++width;
-
-            if(ch == '\n') ++height;
+        while (std::getline(input, line)){
+            width = 0;
+            for(auto c : line){
+                readFile.emplace_back(Node(Point(width++,height),c == 'T'));
+            }
+            ++height;
         }
+
         input.close();
 
         if(width != height){
@@ -56,11 +54,12 @@ int main(int argc, char* args[]) {
             exit(EXIT_FAILURE);
         }
 
-        if(powerof4(width + 1)){
+        if(powerof4(width)){
             std::cout << "Program input width and height must conform to x^4" << std::endl;
             exit(EXIT_FAILURE);
         }
 
+        Quad *Q = new Quad();
 
 
     }else{
