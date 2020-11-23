@@ -1,0 +1,3 @@
+/home/aiden/CLionProjects/Quadtree/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/aiden/CLionProjects/Quadtree/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/aiden/CLionProjects/Quadtree/cmake-build-debug/CMakeFiles/Quadtree.dir
