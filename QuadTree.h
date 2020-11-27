@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cmath>
 
+// might aswell used two ints however this is nicer
 struct Point{
     int x;
     int y;
@@ -42,7 +43,11 @@ class Quad {
     Point botRight;
 
     // Contains details of node
-    Node *n;
+    //Node *n;
+    Node *topLeftNode;
+    Node *topRightNode;
+    Node *botLeftNode;
+    Node *botRightNode;
 
     // Children of this tree
     Quad *topLeftTree;
@@ -52,7 +57,11 @@ class Quad {
 
 public:
     Quad(){
-        n = nullptr;
+        //n = nullptr;
+        topLeftNode  = nullptr;
+        topRightNode = nullptr;
+        botLeftNode  = nullptr;
+        botRightNode = nullptr;
         topLeftTree  = nullptr;
         topRightTree = nullptr;
         botLeftTree  = nullptr;
@@ -61,14 +70,32 @@ public:
         botRight = Point(0, 0);
     }
 
-    Quad(Point topL, Point botR){
-        n = nullptr;
+    Quad(Quad *topLeftQ, Quad *topRightQ, Quad *botLeftQ, Quad *botRightQ){
+        //n = nullptr;
+        topLeftNode  = nullptr;
+        topRightNode = nullptr;
+        botLeftNode  = nullptr;
+        botRightNode = nullptr;
+        topLeftTree  = topLeftQ;
+        topRightTree = topRightQ;
+        botLeftTree  = botLeftQ;
+        botRightTree = botRightQ;
+        topLeft = topLeftQ->topLeft;
+        botRight = botRightQ->botRight;
+    }
+//Point topL, Point botR,
+    Quad(Node *topLeftN, Node *topRightN, Node *botLeftN, Node *botRightN){
+        //n = nullptr;
+        topLeftNode  = topLeftN;
+        topRightNode = topRightN;
+        botLeftNode  = botLeftN;
+        botRightNode = botRightN;
         topLeftTree  = nullptr;
         topRightTree = nullptr;
         botLeftTree  = nullptr;
         botRightTree = nullptr;
-        topLeft = topL;
-        botRight = botR;
+        topLeft = topLeftN->pos;
+        botRight = botRightN->pos;
     }
 
     void insert(Node*);
