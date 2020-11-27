@@ -17,7 +17,7 @@ bool powerof4(unsigned n){
 
 int main(int argc, char* args[]) {
     std::vector<Node> readFile;
-    //std::vector<Quad> quadTree;
+    std::vector<Quad> quadTree;
     std::fstream input;
     bool isTxt;
     std::string line;
@@ -38,6 +38,7 @@ int main(int argc, char* args[]) {
 
         if (!input) {
             perror ("Error encountered: ");
+            //change witch exception?
             exit(EXIT_FAILURE);
         }
 
@@ -53,36 +54,42 @@ int main(int argc, char* args[]) {
 
         if(width != height){
             std::cout << "Program input must be a square!" << std::endl;
+            //change witch exception
             exit(EXIT_FAILURE);
         }
 
         if(!powerof4(width)) {
             std::cout << "Program input width and height must conform to x^4" << std::endl;
+            //change witch exception
             exit(EXIT_FAILURE);
         }
 
-        Quad *quadTree = new Quad(readFile.front().pos, readFile.back().pos);
-
-        for(int i = 0; i < width; i+=2){
-//            quadTree.emplace_back(Quad(readFile.at(i).pos,readFile.at(i + 1 + width).pos));
-//
-//            quadTree.back().insert(&readFile.at(i));
-//            quadTree.back().insert(&readFile.at(i + 1));
-//            quadTree.back().insert(&readFile.at(i + 2));
-//            quadTree.back().insert(&readFile.at(i + 3));
-
-            quadTree->insert(&readFile.at(i));
-            quadTree->insert(&readFile.at(i + 1));
-            quadTree->insert(&readFile.at(i + 2));
-            quadTree->insert(&readFile.at(i + 3));
-
-            if(i == width - 1){
-                x += width;
-                i = 0;
-            }
+        for(int i = 0; i < width; i++){
+            quadTree.emplace_back(Quad(readFile.at(i).pos,readFile.at(i + 1 + width).pos));
         }
 
-        free(quadTree);
+//        Quad *quadTree = new Quad(readFile.front().pos, readFile.back().pos);
+//
+//        for(int i = 0; i < width; i+=2){
+////            quadTree.emplace_back(Quad(readFile.at(i).pos,readFile.at(i + 1 + width).pos));
+////
+////            quadTree.back().insert(&readFile.at(i));
+////            quadTree.back().insert(&readFile.at(i + 1));
+////            quadTree.back().insert(&readFile.at(i + 2));
+////            quadTree.back().insert(&readFile.at(i + 3));
+//
+//            quadTree->insert(&readFile.at(i));
+//            quadTree->insert(&readFile.at(i + 1));
+//            quadTree->insert(&readFile.at(i + 2));
+//            quadTree->insert(&readFile.at(i + 3));
+//
+//            if(i == width - 1){
+//                x += width;
+//                i = 0;
+//            }
+//        }
+
+        //free(quadTree);
 
 //        Quad *quadtree = new Quad(readFile.front().pos, readFile.back().pos);
 //
