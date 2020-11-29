@@ -23,6 +23,8 @@ int main(int argc, char* args[]) {
     std::string line;
     int width = 0, height = 0;
     int previousWidth, sizeOfTree;
+
+
     //sizeOfTree could be a tree variable
     if(argc != 2){
         std::cout << "Program requires argument for file to open!" << std::endl;
@@ -75,80 +77,33 @@ int main(int argc, char* args[]) {
                                 &readFile.at(i + width),&readFile.at(i + 1 + width)));
 
         }
-        int sizeOfBaseQuadTree = quadTree.size();
-        for(int j = 0; width != 1; j++){
+        //int sizeOfLowerTree = quadTree.size();
+        int calculatedPosition = 0;
+        int gap = 0;
+        for(int j = 0; width != 2; j++){
             previousWidth = width;
             width /= 2;
-            sizeOfTree = quadTree.size();
-            for(int i = -width; i < (width * width); i+=(width/4)){
+            //sizeOfTree = quadTree.size();
+            for(int i = -width; i < (width * width); i+=2){
                 if(i % width == 0){
                     i += width;
                     if (i == width * width) break;
                 }
-                quadTree.emplace_back(Quad( &quadTree.at(i + (sizeOfTree - sizeOfBaseQuadTree) - 1),&quadTree.at(i + (sizeOfTree - sizeOfBaseQuadTree)),
-                                            &quadTree.at(i + width + (sizeOfTree - sizeOfBaseQuadTree) - 1),&quadTree.at(i + width + (sizeOfTree - sizeOfBaseQuadTree))));
+                //calculatedPosition = i + (int)pow(((double)sizeOfTree - (double)sizeOfLowerTree)/2, 2);
+                calculatedPosition = i + gap;
+                quadTree.emplace_back(Quad( &quadTree.at(calculatedPosition),&quadTree.at(calculatedPosition + 1),
+                                            &quadTree.at(calculatedPosition + width),&quadTree.at(calculatedPosition + width + 1)));
             }
+            gap += (width * width);
+            //sizeOfLowerTree == sizeOfTree ? : sizeOfLowerTree = sizeOfTree;
             j++;
         }
-
-
-//        for(int i = 0, widthInQuads = ceil (width / pow(2,i));
-//            widthInQuads > 0;
-//            i+=widthInQuads, widthInQuads = ceil (width / pow(2,i))){
-//
-//            //Skip a line
-//            if(i % width == 0 & i != 0){
-//                i += widthInQuads;
-//                if (i == 1) break;
-//            }
-//            quadTree.emplace_back(Quad(&quadTree.at(i),&quadTree.at(i + 1),
-//                                       &quadTree.at(i + width), &quadTree.at(i + 1 + width)));
-//        }
 
 
 
         Quad q = quadTree.back();
 
         std::cout << "yo";
-//        Quad *quadTree = new Quad(readFile.front().pos, readFile.back().pos);
-//
-//        for(int i = 0; i < width; i+=2){
-////            quadTree.emplace_back(Quad(readFile.at(i).pos,readFile.at(i + 1 + width).pos));
-////
-////            quadTree.back().insert(&readFile.at(i));
-////            quadTree.back().insert(&readFile.at(i + 1));
-////            quadTree.back().insert(&readFile.at(i + 2));
-////            quadTree.back().insert(&readFile.at(i + 3));
-//
-//            quadTree->insert(&readFile.at(i));
-//            quadTree->insert(&readFile.at(i + 1));
-//            quadTree->insert(&readFile.at(i + 2));
-//            quadTree->insert(&readFile.at(i + 3));
-//
-//            if(i == width - 1){
-//                x += width;
-//                i = 0;
-//            }
-//        }
-
-        //free(quadTree);
-
-//        Quad *quadtree = new Quad(readFile.front().pos, readFile.back().pos);
-//
-//        //top left
-//        quadtree->insert(&readFile.at(x));
-//        //bottom left
-//        quadtree->insert(&readFile.at(x + width));
-//        //top right
-//        quadtree->insert(&readFile.at(y));
-//        //bottom right
-//        quadtree->insert(&readFile.at(y + height));
-//
-//        while(width != 1){
-//
-//            width /= 2;
-//            height /= 2;
-//        }
 
 
     }else{

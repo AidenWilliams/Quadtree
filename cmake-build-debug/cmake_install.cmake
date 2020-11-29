@@ -1,4 +1,4 @@
-# Install script for directory: /home/aiden/CLionProjects/Quadtree
+# Install script for directory: /mnt/c/Users/Aiden Williams/CLionProjects/OS_SP_Assignment_Shell/cps2004cpp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/aiden/CLionProjects/Quadtree/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/mnt/c/Users/Aiden Williams/CLionProjects/OS_SP_Assignment_Shell/cps2004cpp/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
