@@ -22,7 +22,8 @@ int main(int argc, char* args[]) {
     bool isTxt;
     std::string line;
     int width = 0, height = 0;
-    int previousWidth, sizeOfTree;
+    int calculatedPosition = 0;
+    int gap = 0;
 
 
     //sizeOfTree could be a tree variable
@@ -75,28 +76,21 @@ int main(int argc, char* args[]) {
             }
             quadTree.emplace_back(Quad( &readFile.at(i),&readFile.at(i + 1),
                                 &readFile.at(i + width),&readFile.at(i + 1 + width)));
-
         }
-        //int sizeOfLowerTree = quadTree.size();
-        int calculatedPosition = 0;
-        int gap = 0;
-        for(int j = 0; width != 2; j++){
-            previousWidth = width;
+        //loop for every layer until there are only 2 * 2 quads left
+        while (width != 2){
             width /= 2;
-            //sizeOfTree = quadTree.size();
             for(int i = -width; i < (width * width); i+=2){
+                //Skip a line
                 if(i % width == 0){
                     i += width;
                     if (i == width * width) break;
                 }
-                //calculatedPosition = i + (int)pow(((double)sizeOfTree - (double)sizeOfLowerTree)/2, 2);
                 calculatedPosition = i + gap;
                 quadTree.emplace_back(Quad( &quadTree.at(calculatedPosition),&quadTree.at(calculatedPosition + 1),
                                             &quadTree.at(calculatedPosition + width),&quadTree.at(calculatedPosition + width + 1)));
             }
             gap += (width * width);
-            //sizeOfLowerTree == sizeOfTree ? : sizeOfLowerTree = sizeOfTree;
-            j++;
         }
 
 
