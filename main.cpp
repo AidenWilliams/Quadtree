@@ -79,12 +79,18 @@ int main(int argc, char* args[]) {
                                     &readFile.at(i + width),&readFile.at(i + 1 + width)));
 
     }
+    //calculate max size for quadtree
+    int maxSize = 0;
+    for(int i = quadTree.size(); i != 1; i/=4){
+        maxSize += i;
+    }
     int startOfPreviousTreeLevel = 0;
-    for(int j = 0; width != 1; j++){
+    //for(int j = 0; width != 1; j++){
+    while(quadTree.size() != maxSize){
         width /= 2;
         sizeOfTree = quadTree.size();
 
-        for(int i = -width; i < (width * width); i+=(width/4)){
+        for(int i = -width; i < (width * width); i+=(width/j)){
             if(i % width == 0){
                 i += width;
                 if (i == width * width) break;
@@ -93,7 +99,6 @@ int main(int argc, char* args[]) {
                                         &quadTree.at(i + width + startOfPreviousTreeLevel),&quadTree.at(i + width + startOfPreviousTreeLevel + 1)));
         }
         startOfPreviousTreeLevel = sizeOfTree;
-        j++;
     }
 
 
