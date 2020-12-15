@@ -5,7 +5,9 @@
 
 #ifndef QUADTREE_QUADTREE_H
 #define QUADTREE_QUADTREE_H
-
+#include <fstream>
+#include <filesystem>
+#include <vector>
 #include <iostream>
 #include <cmath>
 
@@ -35,14 +37,17 @@ struct Node{
     }
 };
 
-class Quad
-{
+class Quad {
     // Hold details of the boundary of this node
     Point topLeft;
     Point botRight;
 
     // Contains details of node
-    Node *n;
+    //Node *n;
+    Node *topLeftNode;
+    Node *topRightNode;
+    Node *botLeftNode;
+    Node *botRightNode;
 
     // Children of this tree
     Quad *topLeftTree;
@@ -51,31 +56,52 @@ class Quad
     Quad *botRightTree;
 
 public:
-    Quad()
-    {
+    Quad(){
+        //n = nullptr;
+        topLeftNode  = nullptr;
+        topRightNode = nullptr;
+        botLeftNode  = nullptr;
+        botRightNode = nullptr;
+        topLeftTree  = nullptr;
+        topRightTree = nullptr;
+        botLeftTree  = nullptr;
+        botRightTree = nullptr;
         topLeft = Point(0, 0);
         botRight = Point(0, 0);
-        n = nullptr;
+    }
+
+    Quad(Quad *topLeftQ, Quad *topRightQ, Quad *botLeftQ, Quad *botRightQ){
+        //n = nullptr;
+        topLeftNode  = nullptr;
+        topRightNode = nullptr;
+        botLeftNode  = nullptr;
+        botRightNode = nullptr;
+        topLeftTree  = topLeftQ;
+        topRightTree = topRightQ;
+        botLeftTree  = botLeftQ;
+        botRightTree = botRightQ;
+        topLeft = topLeftQ->topLeft;
+        botRight = botRightQ->botRight;
+    }
+//Point topL, Point botR,
+    Quad(Node *topLeftN, Node *topRightN, Node *botLeftN, Node *botRightN){
+        //n = nullptr;
+        topLeftNode  = topLeftN;
+        topRightNode = topRightN;
+        botLeftNode  = botLeftN;
+        botRightNode = botRightN;
         topLeftTree  = nullptr;
         topRightTree = nullptr;
         botLeftTree  = nullptr;
         botRightTree = nullptr;
+        topLeft = topLeftN->pos;
+        botRight = botRightN->pos;
     }
-    Quad(Point topL, Point botR)
-    {
-        n = nullptr;
-        topLeftTree  = nullptr;
-        topRightTree = nullptr;
-        botLeftTree  = nullptr;
-        botRightTree = nullptr;
-        topLeft = topL;
-        botRight = botR;
-    }
-    ~Quad();
-    void insert(Node*);
-    Node* search(Point);
+
+    //~Quad();
+    //since input is restricted to 4^x
+    void generateTree(int);
     [[nodiscard]] bool inBoundary(Point) const;
-    [[nodiscard]] static bool arePointersThere(Quad);
     void compress(int);
 };
 

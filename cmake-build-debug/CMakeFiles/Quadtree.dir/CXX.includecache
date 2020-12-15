@@ -7,6 +7,12 @@
 #IncludeRegexTransform: 
 
 /home/aiden/CLionProjects/Quadtree/QuadTree.h
+fstream
+-
+filesystem
+-
+vector
+-
 iostream
 -
 cmath

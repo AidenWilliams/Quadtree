@@ -23,6 +23,8 @@ int main(int argc, char* args[]) {
     std::string line;
     int width = 0, height = 0;
     int previousWidth, sizeOfTree;
+
+
     //sizeOfTree could be a tree variable
     if(argc != 2){
         std::cout << "Program requires argument for file to open!" << std::endl;
@@ -63,27 +65,37 @@ int main(int argc, char* args[]) {
             //change witch exception
             exit(EXIT_FAILURE);
         }
-        //first number elements in the quadtree are the basic quads
-
-        for(int i = -width; i < (width * width); i+=2) {
-            //Skip a line
-            if (i % width == 0) {
-                i += width;
-                if (i == width * width) break;
-            }
-        }
-
-        Quad quad(readFile.front().pos, readFile.back().pos);
-
-        for(auto node : readFile){
-            // re write insert function
-            quad.insert(&node);
-        }
-
-        std::cout << "Monkey";
     }else{
         //iscsv
     }
+
+    for(int i = -width; i < (width * width); i+=2){
+        //Skip a line
+        if(i % width == 0){
+            i += width;
+            if (i == width * width) break;
+        }
+        quadTree.emplace_back(Quad( &readFile.at(i),&readFile.at(i + 1),
+                                    &readFile.at(i + width),&readFile.at(i + 1 + width)));
+
+    }
+    int startOfPreviousTreeLevel = 0;
+    for(int j = 0; width != 1; j++){
+        width /= 2;
+        sizeOfTree = quadTree.size();
+
+        for(int i = -width; i < (width * width); i+=(width/4)){
+            if(i % width == 0){
+                i += width;
+                if (i == width * width) break;
+            }
+            quadTree.emplace_back(Quad( &quadTree.at(i + startOfPreviousTreeLevel),&quadTree.at(i + startOfPreviousTreeLevel + 1),
+                                        &quadTree.at(i + width + startOfPreviousTreeLevel),&quadTree.at(i + width + startOfPreviousTreeLevel + 1)));
+        }
+        startOfPreviousTreeLevel = sizeOfTree;
+        j++;
+    }
+
 
     exit(EXIT_SUCCESS);
 }
