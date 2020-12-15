@@ -86,18 +86,21 @@ int main(int argc, char* args[]) {
     }
     int startOfPreviousTreeLevel = 0;
     //for(int j = 0; width != 1; j++){
-    while(quadTree.size() != maxSize){
+    for(int j = width/8; j >= 0; --j){
         width /= 2;
         sizeOfTree = quadTree.size();
-
-        for(int i = -width; i < (width * width); i+=(width/j)){
+        int i = -width;
+        do {
             if(i % width == 0){
                 i += width;
                 if (i == width * width) break;
             }
             quadTree.emplace_back(Quad( &quadTree.at(i + startOfPreviousTreeLevel),&quadTree.at(i + startOfPreviousTreeLevel + 1),
                                         &quadTree.at(i + width + startOfPreviousTreeLevel),&quadTree.at(i + width + startOfPreviousTreeLevel + 1)));
-        }
+            //this depends on the previous tree level I think
+            i += j;
+        } while (j != 0 & i < pow(width, j));
+
         startOfPreviousTreeLevel = sizeOfTree;
     }
 
