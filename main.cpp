@@ -65,41 +65,22 @@ int main(int argc, char* args[]) {
         }
         //first number elements in the quadtree are the basic quads
 
-        for(int i = -width; i < (width * width); i+=2){
+        for(int i = -width; i < (width * width); i+=2) {
             //Skip a line
-            if(i % width == 0){
+            if (i % width == 0) {
                 i += width;
                 if (i == width * width) break;
             }
-            //Reading base nodes in this
-
-            //quadTree.emplace_back(Quad( &readFile.at(i),&readFile.at(i + 1),
-            //                    &readFile.at(i + width),&readFile.at(i + 1 + width)));
-
         }
-//        int sizeOfBaseQuadTree = quadTree.size();
-//        for(int j = 0; width != 1; j++){
-//            previousWidth = width;
-//            width /= 2;
-//            sizeOfTree = quadTree.size();
-//            for(int i = -width; i < (width * width); i+=(width/4)){
-//                if(i % width == 0){
-//                    i += width;
-//                    if (i == width * width) break;
-//                }
-//                quadTree.emplace_back(Quad( &quadTree.at(i + (sizeOfTree - sizeOfBaseQuadTree) - 1),&quadTree.at(i + (sizeOfTree - sizeOfBaseQuadTree)),
-//                                            &quadTree.at(i + width + (sizeOfTree - sizeOfBaseQuadTree) - 1),&quadTree.at(i + width + (sizeOfTree - sizeOfBaseQuadTree))));
-//            }
-//            j++;
-//        }
 
+        Quad quad(readFile.front().pos, readFile.back().pos);
 
+        for(auto node : readFile){
+            // re write insert function
+            quad.insert(&node);
+        }
 
-
-        Quad q = quadTree.back();
-
-        std::cout << "yo";
-
+        std::cout << "Monkey";
     }else{
         //iscsv
     }
