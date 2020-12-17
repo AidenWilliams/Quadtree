@@ -16,8 +16,9 @@ bool powerof4(unsigned n){
 }
 
 int main(int argc, char* args[]) {
-    std::vector<Node> readFile;
-    std::vector<Quad> quadTree;
+    std::vector<Data> readFile;
+    //std::vector<Quad> quadTree;
+    //Quadtree* quadtree;
     std::fstream input;
     bool isTxt;
     std::string line;
@@ -47,7 +48,8 @@ int main(int argc, char* args[]) {
         while (std::getline(input, line)){
             width = 0;
             for(auto c : line){
-                readFile.emplace_back(Node(Point(width++,height),c == 'T'));
+                //readFile.emplace_back(Node(Point(width++,height),c == 'T'));
+                readFile.emplace_back(Data(Point(width++,height),c == 'T'));
             }
             ++height;
         }
@@ -60,50 +62,23 @@ int main(int argc, char* args[]) {
             exit(EXIT_FAILURE);
         }
 
-        if(!powerof4(width)) {
-            std::cout << "Program input width and height must conform to x^4" << std::endl;
-            //change witch exception
-            exit(EXIT_FAILURE);
-        }
+//        if(!powerof4(width)) {
+//            std::cout << "Program input width and height must conform to x^4" << std::endl;
+//            //change witch exception
+//            exit(EXIT_FAILURE);
+//        }
     }else{
         //iscsv
     }
 
-    for(int i = -width; i < (width * width); i+=2){
-        //Skip a line
-        if(i % width == 0){
-            i += width;
-            if (i == width * width) break;
-        }
-        quadTree.emplace_back(Quad( &readFile.at(i),&readFile.at(i + 1),
-                                    &readFile.at(i + width),&readFile.at(i + 1 + width)));
+    auto* root =  new Quadtree(Node(
+                            Point(width/2 -1, height/2 -1),
+                            Point(width/2, width/2)));
 
+    for(auto data: readFile){
+        //root->insert(data);
+        if(data.load) root->insert(data);
     }
-    //calculate max size for quadtree
-    int maxSize = 0;
-    for(int i = quadTree.size(); i != 1; i/=4){
-        maxSize += i;
-    }
-    int startOfPreviousTreeLevel = 0;
-    //for(int j = 0; width != 1; j++){
-    for(int j = width/8; j >= 0; --j){
-        width /= 2;
-        sizeOfTree = quadTree.size();
-        int i = -width;
-        do {
-            if(i % width == 0){
-                i += width;
-                if (i == width * width) break;
-            }
-            quadTree.emplace_back(Quad( &quadTree.at(i + startOfPreviousTreeLevel),&quadTree.at(i + startOfPreviousTreeLevel + 1),
-                                        &quadTree.at(i + width + startOfPreviousTreeLevel),&quadTree.at(i + width + startOfPreviousTreeLevel + 1)));
-            //this depends on the previous tree level I think
-            i += j;
-        } while (j != 0 & i < pow(width, j));
-
-        startOfPreviousTreeLevel = sizeOfTree;
-    }
-
 
     exit(EXIT_SUCCESS);
 }
