@@ -16,14 +16,14 @@ bool powerof4(unsigned n){
 }
 
 int main(int argc, char* args[]) {
-    std::vector<Node> readFile;
-    std::vector<Quad> quadTree;
+    std::vector<Data> readFile;
+    //std::vector<Quad> quadTree;
+    //Quadtree* quadtree;
     std::fstream input;
     bool isTxt;
     std::string line;
     int width = 0, height = 0;
-    int calculatedPosition = 0;
-    int gap = 0;
+    int previousWidth, sizeOfTree;
 
 
     //sizeOfTree could be a tree variable
@@ -48,7 +48,8 @@ int main(int argc, char* args[]) {
         while (std::getline(input, line)){
             width = 0;
             for(auto c : line){
-                readFile.emplace_back(Node(Point(width++,height),c == 'T'));
+                //readFile.emplace_back(Node(Point(width++,height),c == 'T'));
+                readFile.emplace_back(Data(Point(width++,height),c == 'T'));
             }
             ++height;
         }
@@ -61,47 +62,22 @@ int main(int argc, char* args[]) {
             exit(EXIT_FAILURE);
         }
 
-        if(!powerof4(width)) {
-            std::cout << "Program input width and height must conform to x^4" << std::endl;
-            //change witch exception
-            exit(EXIT_FAILURE);
-        }
-        //first number elements in the quadtree are the basic quads
-
-        for(int i = -width; i < (width * width); i+=2){
-            //Skip a line
-            if(i % width == 0){
-                i += width;
-                if (i == width * width) break;
-            }
-            quadTree.emplace_back(Quad( &readFile.at(i),&readFile.at(i + 1),
-                                &readFile.at(i + width),&readFile.at(i + 1 + width)));
-        }
-        //loop for every layer until there are only 2 * 2 quads left
-        while (width != 2){
-            width /= 2;
-            for(int i = -width; i < (width * width); i+=2){
-                //Skip a line
-                if(i % width == 0){
-                    i += width;
-                    if (i == width * width) break;
-                }
-                calculatedPosition = i + gap;
-                quadTree.emplace_back(Quad( &quadTree.at(calculatedPosition),&quadTree.at(calculatedPosition + 1),
-                                            &quadTree.at(calculatedPosition + width),&quadTree.at(calculatedPosition + width + 1)));
-            }
-            gap += (width * width);
-        }
-
-
-
-        Quad q = quadTree.back();
-
-        std::cout << "yo";
-
-
+//        if(!powerof4(width)) {
+//            std::cout << "Program input width and height must conform to x^4" << std::endl;
+//            //change witch exception
+//            exit(EXIT_FAILURE);
+//        }
     }else{
         //iscsv
+    }
+
+    auto* root =  new Quadtree(Node(
+                            Point(width/2 -1, height/2 -1),
+                            Point(width/2, width/2)));
+
+    for(auto data: readFile){
+        //root->insert(data);
+        if(data.load) root->insert(data);
     }
 
     exit(EXIT_SUCCESS);

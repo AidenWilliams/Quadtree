@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/aiden/CLionProjects/Quadtree/QuadTree.h
+fstream
+-
+filesystem
+-
+vector
+-
+iostream
+-
+cmath
+-
+
+/home/aiden/CLionProjects/Quadtree/main.cpp
+iostream
+-
+cmath
+-
+fstream
+-
+filesystem
+-
+vector
+-
+QuadTree.h
+/home/aiden/CLionProjects/Quadtree/QuadTree.h
+
