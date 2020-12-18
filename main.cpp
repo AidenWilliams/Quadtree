@@ -5,16 +5,6 @@
 #include <vector>
 #include "QuadTree.h"
 
-//https://www.geeksforgeeks.org/find-whether-a-given-number-is-a-power-of-4-or-not/
-// returns true if n is power of four
-bool powerof4(unsigned n){
-    // find log4(n)
-    double i = log(n) / log(4);
-
-    // return true if log4(n) is an integer
-    return i == trunc(i);
-}
-
 int main(int argc, char* args[]) {
     std::vector<Data> readFile;
     //std::vector<Quad> quadTree;
@@ -23,10 +13,8 @@ int main(int argc, char* args[]) {
     bool isTxt;
     std::string line;
     int width = 0, height = 0;
-    int previousWidth, sizeOfTree;
+    Node node;
 
-
-    //sizeOfTree could be a tree variable
     if(argc != 2){
         std::cout << "Program requires argument for file to open!" << std::endl;
         exit(EXIT_FAILURE);
@@ -48,8 +36,7 @@ int main(int argc, char* args[]) {
         while (std::getline(input, line)){
             width = 0;
             for(auto c : line){
-                //readFile.emplace_back(Node(Point(width++,height),c == 'T'));
-                readFile.emplace_back(Data(Point(width++,height),c == 'T'));
+                readFile.emplace_back(Data(Vector(width++, height), c == 'T'));
             }
             ++height;
         }
@@ -61,22 +48,13 @@ int main(int argc, char* args[]) {
             //change witch exception
             exit(EXIT_FAILURE);
         }
-
-//        if(!powerof4(width)) {
-//            std::cout << "Program input width and height must conform to x^4" << std::endl;
-//            //change witch exception
-//            exit(EXIT_FAILURE);
-//        }
     }else{
         //iscsv
     }
 
-    auto* root =  new Quadtree(Node(
-                            Point(width/2 -1, height/2 -1),
-                            Point(width/2, width/2)));
+    auto* root =  new Quadtree(Node(Vector(width/2, height/2), Vector(width/2, height/2)));
 
     for(auto data: readFile){
-        //root->insert(data);
         if(data.load) root->insert(data);
     }
 
