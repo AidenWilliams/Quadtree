@@ -3,18 +3,18 @@
 //
 
 #include "QuadTree.h"
-///*
-// * Transforms Point by adding scalar to both x,y
-// */
-//Point Point::operator+(int rhs) const {
-//    return Point(x + rhs, y + rhs);
-//}
-///*
-// * Transforms Point by subtracting scalar to both x,y
-// */
-//Point Point::operator-(int rhs) const {
-//    return Point(x - rhs, y - rhs);
-//}
+/*
+ * Transforms Point by adding scalar to both x,y
+ */
+Point Point::operator+(int rhs) const {
+    return Point(x + rhs, y + rhs);
+}
+/*
+ * Transforms Point by subtracting scalar to both x,y
+ */
+Point Point::operator-(int rhs) const {
+    return Point(x - rhs, y - rhs);
+}
 /*
  * Add x and y values of points
  */
@@ -65,7 +65,6 @@ bool Node::intersects(Node& other) const
     return false;
 }
 
-//template <class T>
 Quadtree::Quadtree()
 {
     nw = nullptr;
@@ -76,7 +75,6 @@ Quadtree::Quadtree()
     objects = std::vector<Data>();
 }
 
-//template <class T>
 Quadtree::Quadtree(Node boundary)
 {
     objects = std::vector<Data>();
@@ -87,7 +85,6 @@ Quadtree::Quadtree(Node boundary)
     this->boundary = boundary;
 }
 
-//template <class T>
 Quadtree::~Quadtree()
 {
     delete nw;
@@ -96,7 +93,6 @@ Quadtree::~Quadtree()
     delete se;
 }
 
-//template <class T>
 void Quadtree::subdivide()
 {
     Point qSize = boundary.halfSize;
@@ -114,7 +110,6 @@ void Quadtree::subdivide()
     se = new Quadtree(Node(qCentre, qSize));
 }
 
-//template <class T>
 bool Quadtree::insert(Data d)
 {
     if(!boundary.contains(d.pos))
@@ -153,7 +148,6 @@ bool Quadtree::insert(Data d)
     return false;
 }
 
-//template <class T>
 std::vector<Data> Quadtree::queryRange(Node range)
 {
     std::vector<Data> pInRange = std::vector<Data>();
@@ -189,4 +183,32 @@ std::vector<Data> Quadtree::queryRange(Node range)
     pInRange.insert(pInRange.end(), temp.begin(), temp.end());
 
     return pInRange;
+}
+
+/**
+ * Print the QuadTree
+ */
+void Quadtree::print(int indent) {
+//    for(int i = 0; i < indent; i++)
+//        std::cout << '\t';
+//    std::cout << "Parent Centre: " << boundary.centre.x << ", "<< boundary.centre.x << std::endl;
+    for(int i = 0; i < indent; i++)
+        std::cout << '\t';
+    std::cout << "Data: " << std::endl;
+    for(auto data: objects){
+        for(int i = 0; i < indent; i++)
+            std::cout << '\t';
+        std::cout << "Pos " << data.pos.x << ", "<< data.pos.x << " data: " << data.load << std::endl;
+    }
+    for(int i = 0; i < indent; i++)
+        std::cout << '\t';
+    std::cout << "Children: " << std::endl;
+    if (nw != nullptr)
+        nw->print(indent++);
+    if (ne != nullptr)
+        ne->print(indent++);
+    if (sw != nullptr)
+        sw->print(indent++);
+    if (se != nullptr)
+        se->print(indent++);
 }

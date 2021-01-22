@@ -15,6 +15,8 @@ struct Point
 
     Point(int x = 0, int y = 0):x(x), y(y){};
 
+    Point operator +(int) const;
+    Point operator -(int) const;
     Point operator +(Point) const;
     Point operator -(Point) const;
     Point operator >>(Point) const;
@@ -52,7 +54,6 @@ private:
     Quadtree* ne;
     Quadtree* sw;
     Quadtree* se;
-
     Node boundary;
 
     std::vector<Data> objects;
@@ -69,6 +70,7 @@ public:
     bool insert(Data d);
     void subdivide();
     std::vector<Data> queryRange(Node range);
+    void print(int indent=0);
 };
 
 #endif //QUADTREE_QUADTREE_H

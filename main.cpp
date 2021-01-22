@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <vector>
 #include "QuadTree.h"
+#include <string>
 
 //https://www.geeksforgeeks.org/find-whether-a-given-number-is-a-power-of-4-or-not/
 // returns true if n is power of four
@@ -23,7 +24,6 @@ int main(int argc, char* args[]) {
     bool isTxt;
     std::string line;
     int width = 0, height = 0;
-    int previousWidth, sizeOfTree;
 
 
     //sizeOfTree could be a tree variable
@@ -55,20 +55,25 @@ int main(int argc, char* args[]) {
         }
 
         input.close();
-
-        if(width != height){
-            std::cout << "Program input must be a square!" << std::endl;
-            //change witch exception
+    }else{
+        input.open(inputDirectory.string(), std::ios::in);
+        if (!input) {
+            perror ("Error encountered: ");
+            //change witch exception?
             exit(EXIT_FAILURE);
         }
 
-//        if(!powerof4(width)) {
-//            std::cout << "Program input width and height must conform to x^4" << std::endl;
-//            //change witch exception
-//            exit(EXIT_FAILURE);
-//        }
-    }else{
-        //iscsv
+        while (input >> line){
+            std::stringstream s(line);
+            int i = 0;
+            std::string word;
+            int t[] = {0,0};
+            while(getline(s, word, 's')){
+                t[i++] = std::stoi(word);
+            }
+
+            readFile.emplace_back(Data(Point(t[0],t[1]),true));
+        }
     }
 
     auto* root =  new Quadtree(Node(
@@ -79,6 +84,6 @@ int main(int argc, char* args[]) {
         //root->insert(data);
         if(data.load) root->insert(data);
     }
-
+    root->print();
     exit(EXIT_SUCCESS);
 }
