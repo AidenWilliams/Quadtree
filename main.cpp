@@ -6,16 +6,6 @@
 #include "QuadTree.h"
 #include <string>
 
-//https://www.geeksforgeeks.org/find-whether-a-given-number-is-a-power-of-4-or-not/
-// returns true if n is power of four
-bool powerof4(unsigned n){
-    // find log4(n)
-    double i = log(n) / log(4);
-
-    // return true if log4(n) is an integer
-    return i == trunc(i);
-}
-
 int main(int argc, char* args[]) {
     std::vector<Data> readFile;
     //std::vector<Quad> quadTree;

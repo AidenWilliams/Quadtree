@@ -39,25 +39,15 @@ Point Point::operator>>(Point rhs) const {
 Point Point::operator<<(Point rhs) const {
     return Point(x - rhs.x, y + rhs.y);
 }
-
+/**
+ * Returns whether a node contains point a in it or not
+ * @param a the point that could be in the Node
+ * @return true if point a is in node
+ */
 bool Node::contains(Point a) const {
     if(a.x < centre.x + halfSize.x && a.x > centre.x - halfSize.x)
     {
         if(a.y < centre.y + halfSize.y && a.y > centre.y - halfSize.y)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Node::intersects(Node& other) const
-{
-    //this right > that left                                          this left <s that right
-    if(centre.x + halfSize.x > other.centre.x - other.halfSize.x || centre.x - halfSize.x < other.centre.x + other.halfSize.x)
-    {
-        // This bottom > that top
-        if(centre.y + halfSize.y > other.centre.y - other.halfSize.y || centre.y - halfSize.y < other.centre.y + other.halfSize.y)
         {
             return true;
         }
@@ -92,7 +82,9 @@ Quadtree::~Quadtree()
     delete ne;
     delete se;
 }
-
+/**
+ * Subdivide the quadtree into 4 new quadtrees
+ */
 void Quadtree::subdivide()
 {
     Point qSize = boundary.halfSize;
@@ -109,24 +101,30 @@ void Quadtree::subdivide()
     qCentre = boundary.centre + qSize;
     se = new Quadtree(Node(qCentre, qSize));
 }
-
+/**
+ * Inserts data d into the tree
+ * @param d Data to be inserter
+ * @return if insertion was successful or not
+ */
 bool Quadtree::insert(Data d)
 {
+    //if d is not within the boundary of this, return
     if(!boundary.contains(d.pos))
     {
         return false;
     }
-
+    //if there is space in the tree then add d
     if(objects.size() < capacity)
     {
         objects.push_back(d);
         return true;
     }
-
+    //If the tree hasn't been subdivided yet, subdivide it
     if(nw == nullptr)
     {
         subdivide();
     }
+    //Insert it in its place via recursion
 
     if(nw->insert(d))
     {
@@ -148,60 +146,24 @@ bool Quadtree::insert(Data d)
     return false;
 }
 
-std::vector<Data> Quadtree::queryRange(Node range)
-{
-    std::vector<Data> pInRange = std::vector<Data>();
-
-    if(!boundary.intersects(range))
-    {
-        return pInRange;
-    }
-
-    for(auto&& object: objects)
-    {
-        if(range.contains(object.pos))
-        {
-            pInRange.push_back(object);
-        }
-    }
-
-    if(nw == nullptr)
-    {
-        return pInRange;
-    }
-
-    std::vector<Data> temp = nw->queryRange(range);
-    pInRange.insert(pInRange.end(), temp.begin(), temp.end());
-
-    temp = ne->queryRange(range);
-    pInRange.insert(pInRange.end(), temp.begin(), temp.end());
-
-    temp = sw->queryRange(range);
-    pInRange.insert(pInRange.end(), temp.begin(), temp.end());
-
-    temp = se->queryRange(range);
-    pInRange.insert(pInRange.end(), temp.begin(), temp.end());
-
-    return pInRange;
-}
-
 /**
  * Print the QuadTree
  */
 void Quadtree::print(int indent) {
-//    for(int i = 0; i < indent; i++)
-//        std::cout << '\t';
-//    std::cout << "Parent Centre: " << boundary.centre.x << ", "<< boundary.centre.x << std::endl;
+    //Generate indentations
     for(int i = 0; i < indent; i++)
         std::cout << '\t';
+    //Start outputting about the data at the current space in the tree
     std::cout << "Data: " << std::endl;
     for(auto data: objects){
         for(int i = 0; i < indent; i++)
             std::cout << '\t';
         std::cout << "Pos " << data.pos.x << ", "<< data.pos.x << " data: " << data.load << std::endl;
     }
+    //indent further
     for(int i = 0; i < indent; i++)
         std::cout << '\t';
+    //print the children trees
     std::cout << "Children: " << std::endl;
     if (nw != nullptr)
         nw->print(indent++);
