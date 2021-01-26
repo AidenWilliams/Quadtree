@@ -3,58 +3,91 @@
 //
 
 #include "QuadTree.h"
-/*
- * Transforms Point by adding scalar to both x,y
- */
-Point Point::operator+(int rhs) const {
-    return Point(x + rhs, y + rhs);
-}
-/*
- * Transforms Point by subtracting scalar to both x,y
- */
-Point Point::operator-(int rhs) const {
-    return Point(x - rhs, y - rhs);
-}
+///*
+// * Transforms Vector by adding scalar to both x,y
+// */
+//Vector Vector::operator+(int rhs) const {
+//    return Vector(x + rhs, y + rhs);
+//}
+///*
+// * Transforms Vector by subtracting scalar to both x,y
+// */
+//Vector Vector::operator-(int rhs) const {
+//    return Vector(x - rhs, y - rhs);
+//}
 /*
  * Add x and y values of points
  */
-Point Point::operator+(Point rhs) const {
-    return Point(x + rhs.x, y + rhs.y);
+Vector Vector::operator+(Vector rhs) const {
+    return Vector(x + rhs.x, y + rhs.y);
 }
 /*
  * Subtracts x and y values of points
  */
-Point Point::operator-(Point rhs) const {
-    return Point(x - rhs.x, y - rhs.y);
+Vector Vector::operator-(Vector rhs) const {
+    return Vector(x - rhs.x, y - rhs.y);
 }
 /*
  * Adds x values points but subtracts y values
  */
-Point Point::operator>>(Point rhs) const {
-    return Point(x + rhs.x, y - rhs.y);
+Vector Vector::operator>>(Vector rhs) const {
+    return Vector(x + rhs.x, y - rhs.y);
 }
 /*
  * Subtracts x values points but adds y values
  */
-Point Point::operator<<(Point rhs) const {
-    return Point(x - rhs.x, y + rhs.y);
+Vector Vector::operator<<(Vector rhs) const {
+    return Vector(x - rhs.x, y + rhs.y);
+}
+
+Vector Vector::operator*=(int num) const {
+    return Vector(x * num, y * num);
+}
+
+Vector Vector::operator/=(int num) const {
+    return Vector(x / num, y / num);
+}
+
+int Vector::getX() const {
+    return x;
+}
+
+int Vector::getY() const {
+    return y;
+}
+
+const Vector &Data::getPos() const {
+    return pos;
 }
 /**
  * Returns whether a node contains point a in it or not
- * @param a the point that could be in the Node
+ * @param a the vector that could be in the Node
  * @return true if point a is in node
  */
-bool Node::contains(Point a) const {
-    if(a.x < centre.x + halfSize.x && a.x > centre.x - halfSize.x)
-    {
-        if(a.y < centre.y + halfSize.y && a.y > centre.y - halfSize.y)
-        {
-            return true;
-        }
-    }
-    return false;
+bool Node::contains(Vector a) const {
+    return  a.getX() >= centre.getX() - halfSize.getX() &&
+            a.getX() <= centre.getX() + halfSize.getX() &&
+            a.getY() >= centre.getY() - halfSize.getY() &&
+            a.getY() <= centre.getY() + halfSize.getY();
 }
 
+bool Node::intersects(Node& other) const
+{
+    return !(other.centre.getX() - other.halfSize.getX() > centre.getX() + halfSize.getX() ||
+             other.centre.getX() + other.halfSize.getX() > centre.getX() - halfSize.getX() ||
+             other.centre.getY() - other.halfSize.getY() > centre.getY() + halfSize.getY() ||
+             other.centre.getY() + other.halfSize.getY() > centre.getY() - halfSize.getY());
+}
+
+const Vector &Node::getCentre() const {
+    return centre;
+}
+
+const Vector &Node::getHalfSize() const {
+    return halfSize;
+}
+
+//template <class T>
 Quadtree::Quadtree()
 {
     nw = nullptr;
@@ -63,8 +96,10 @@ Quadtree::Quadtree()
     se = nullptr;
     boundary = Node();
     objects = std::vector<Data>();
+    divided = false;
 }
 
+//template <class T>
 Quadtree::Quadtree(Node boundary)
 {
     objects = std::vector<Data>();
@@ -73,6 +108,8 @@ Quadtree::Quadtree(Node boundary)
     sw = nullptr;
     se = nullptr;
     this->boundary = boundary;
+    objects = std::vector<Data>();
+    divided = false;
 }
 
 Quadtree::~Quadtree()
@@ -87,19 +124,16 @@ Quadtree::~Quadtree()
  */
 void Quadtree::subdivide()
 {
-    Point qSize = boundary.halfSize;
+    Vector nCentre = boundary.getCentre();
 
-    Point qCentre = boundary.centre - qSize;
-    nw = new Quadtree(Node(qCentre, qSize));
+    Vector nHalfSize = boundary.getHalfSize() /= 2;
 
-    qCentre = boundary.centre >> qSize;
-    ne = new Quadtree(Node(qCentre, qSize));
+    nw = new Quadtree(Node(Vector(nCentre - nHalfSize), nHalfSize));
+    ne = new Quadtree(Node(Vector(nCentre >> nHalfSize), nHalfSize));
+    sw = new Quadtree(Node(Vector(nCentre << nHalfSize), nHalfSize));
+    se = new Quadtree(Node(Vector(nCentre + nHalfSize), nHalfSize));
 
-    qCentre = boundary.centre << qSize;
-    sw = new Quadtree(Node(qCentre, qSize));
-
-    qCentre = boundary.centre + qSize;
-    se = new Quadtree(Node(qCentre, qSize));
+    divided = true;
 }
 /**
  * Inserts data d into the tree
@@ -109,7 +143,7 @@ void Quadtree::subdivide()
 bool Quadtree::insert(Data d)
 {
     //if d is not within the boundary of this, return
-    if(!boundary.contains(d.pos))
+    if(!boundary.contains(d.getPos()))
     {
         return false;
     }
@@ -119,8 +153,8 @@ bool Quadtree::insert(Data d)
         objects.push_back(d);
         return true;
     }
-    //If the tree hasn't been subdivided yet, subdivide it
-    if(nw == nullptr)
+
+    if(!divided)
     {
         subdivide();
     }

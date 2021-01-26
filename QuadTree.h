@@ -7,41 +7,60 @@
 
 #include <vector>
 #include <iostream>
-/**
- * A point struct containing two integers
+/*
+ * Simple vector of 2 struct, including some mathematical functions.
  */
-struct Point
+ struct Vector
 {
+ private:
     int x,y;
 
-    Point(int x = 0, int y = 0):x(x), y(y){};
+ public:
+    explicit Vector(int x = 0, int y = 0): x(x), y(y){};
 
-    Point operator +(int) const;
-    Point operator -(int) const;
-    Point operator +(Point) const;
-    Point operator -(Point) const;
-    Point operator >>(Point) const;
-    Point operator <<(Point) const;
-};
-/**
- * A node in a tree contains a centre point as well as a halfSize 2d vector (represented by a point)
- */
-struct Node
-{
-    Point centre;
-    Point halfSize;
+    [[nodiscard]] int getX() const;
 
-    explicit Node(Point centre = Point(), Point halfSize = Point()): centre(centre), halfSize(halfSize){};
-    //do not modify the Node instance they are called with. so can be made const
-    [[nodiscard]] bool contains(Point a) const;
+    [[nodiscard]] int getY() const;
+
+    Vector operator +(Vector) const;
+    Vector operator -(Vector) const;
+    Vector operator >>(Vector) const;
+    Vector operator <<(Vector) const;
+    //Multiplying/ Dividing a vector by a constant
+    Vector operator *=(int) const;
+    Vector operator /=(int) const;
 };
-/**
- * A data struct that has a Point pos holding its position and bool load being its value
- */
+
 struct Data
 {
-    Point pos;
+private:
+    Vector pos;
+public:
     bool load;
+    explicit Data(Vector pos, bool data = false): pos(pos), load(data){};
+
+    [[nodiscard]] const Vector &getPos() const;
+};
+
+struct Node
+{
+private:
+    //x and y points
+    Vector centre;
+    //distance from centre to edge, x = width, y = height
+    Vector halfSize;
+
+public:
+    explicit Node(Vector centre = Vector(), Vector halfSize = Vector()): centre(centre), halfSize(halfSize){};
+    //Below functions' return should be used for something
+    //do not modify the Node instance they are called with. so can be made const
+    [[nodiscard]] bool contains(Vector a) const;
+
+    //Pass by reference since I wont be modifying this
+    [[nodiscard]] bool intersects(Node& other) const;
+
+    [[nodiscard]] const Vector &getCentre() const;
+    [[nodiscard]] const Vector &getHalfSize() const;
 
     explicit Data(Point pos = {}, bool data = false): pos(pos), load(data){};
 };
@@ -65,6 +84,7 @@ private:
     //Changes how much data can be stored on one leaf
     static constexpr int capacity = 1;
 public:
+    bool divided;
     Quadtree();
     explicit Quadtree(Node boundary);
 

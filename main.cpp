@@ -66,12 +66,9 @@ int main(int argc, char* args[]) {
         }
     }
 
-    auto* root =  new Quadtree(Node(
-                            Point(width/2 -1, height/2 -1),
-                            Point(width/2, width/2)));
+    auto* root =  new Quadtree(Node(Vector(width/2, height/2), Vector(width/2, height/2)));
 
     for(auto data: readFile){
-        //root->insert(data);
         if(data.load) root->insert(data);
     }
     root->print();
