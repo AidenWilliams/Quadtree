@@ -3,18 +3,6 @@
 //
 
 #include "QuadTree.h"
-///*
-// * Transforms Vector by adding scalar to both x,y
-// */
-//Vector Vector::operator+(int rhs) const {
-//    return Vector(x + rhs, y + rhs);
-//}
-///*
-// * Transforms Vector by subtracting scalar to both x,y
-// */
-//Vector Vector::operator-(int rhs) const {
-//    return Vector(x - rhs, y - rhs);
-//}
 /*
  * Add x and y values of points
  */
@@ -69,14 +57,6 @@ bool Node::contains(Vector a) const {
             a.getX() <= centre.getX() + halfSize.getX() &&
             a.getY() >= centre.getY() - halfSize.getY() &&
             a.getY() <= centre.getY() + halfSize.getY();
-}
-
-bool Node::intersects(Node& other) const
-{
-    return !(other.centre.getX() - other.halfSize.getX() > centre.getX() + halfSize.getX() ||
-             other.centre.getX() + other.halfSize.getX() > centre.getX() - halfSize.getX() ||
-             other.centre.getY() - other.halfSize.getY() > centre.getY() + halfSize.getY() ||
-             other.centre.getY() + other.halfSize.getY() > centre.getY() - halfSize.getY());
 }
 
 const Vector &Node::getCentre() const {
@@ -192,7 +172,7 @@ void Quadtree::print(int indent) {
     for(auto data: objects){
         for(int i = 0; i < indent; i++)
             std::cout << '\t';
-        std::cout << "Pos " << data.pos.x << ", "<< data.pos.x << " data: " << data.load << std::endl;
+        std::cout << "Pos " << data.getPos().getX() << ", "<< data.getPos().getX() << " data: " << data.load << std::endl;
     }
     //indent further
     for(int i = 0; i < indent; i++)
@@ -206,5 +186,5 @@ void Quadtree::print(int indent) {
     if (sw != nullptr)
         sw->print(indent++);
     if (se != nullptr)
-        se->print(indent++);
+        se->print(indent);
 }

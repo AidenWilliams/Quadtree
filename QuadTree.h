@@ -26,7 +26,7 @@
     Vector operator -(Vector) const;
     Vector operator >>(Vector) const;
     Vector operator <<(Vector) const;
-    //Multiplying/ Dividing a vector by a constant
+    //Arithmetic  a vector by a constant
     Vector operator *=(int) const;
     Vector operator /=(int) const;
 };
@@ -52,17 +52,11 @@ private:
 
 public:
     explicit Node(Vector centre = Vector(), Vector halfSize = Vector()): centre(centre), halfSize(halfSize){};
-    //Below functions' return should be used for something
     //do not modify the Node instance they are called with. so can be made const
     [[nodiscard]] bool contains(Vector a) const;
 
-    //Pass by reference since I wont be modifying this
-    [[nodiscard]] bool intersects(Node& other) const;
-
     [[nodiscard]] const Vector &getCentre() const;
     [[nodiscard]] const Vector &getHalfSize() const;
-
-    explicit Data(Point pos = {}, bool data = false): pos(pos), load(data){};
 };
 
 

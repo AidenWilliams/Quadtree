@@ -39,7 +39,7 @@ int main(int argc, char* args[]) {
             width = 0;
             for(auto c : line){
                 //readFile.emplace_back(Node(Point(width++,height),c == 'T'));
-                readFile.emplace_back(Data(Point(width++,height),c == 'T'));
+                readFile.emplace_back(Data(Vector(width++,height),c == 'T'));
             }
             ++height;
         }
@@ -62,7 +62,7 @@ int main(int argc, char* args[]) {
                 t[i++] = std::stoi(word);
             }
 
-            readFile.emplace_back(Data(Point(t[0],t[1]),true));
+            readFile.emplace_back(Data(Vector(t[0],t[1]),true));
         }
     }
 
