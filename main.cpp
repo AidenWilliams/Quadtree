@@ -23,13 +23,12 @@ int main(int argc, char* args[]) {
     isTxt = std::string (args[1]).back() == 't';
 
     std::filesystem::path inputDirectory = std::filesystem::current_path() / args[1];
-
+    std::cout << inputDirectory.string();
     if(isTxt){
         input.open(inputDirectory.string(), std::ios::in);
 
         if (!input) {
             perror ("Error encountered: ");
-            //change witch exception?
             exit(EXIT_FAILURE);
         }
 
