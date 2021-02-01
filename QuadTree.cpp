@@ -6,34 +6,44 @@
 /*
  * Add x and y values of points
  */
-Vector Vector::operator+(Vector rhs) const {
+Vector Vector::operator +(Vector rhs) const {
     return Vector(x + rhs.x, y + rhs.y);
 }
 /*
  * Subtracts x and y values of points
  */
-Vector Vector::operator-(Vector rhs) const {
+Vector Vector::operator -(Vector rhs) const {
     return Vector(x - rhs.x, y - rhs.y);
 }
 /*
  * Adds x values points but subtracts y values
  */
-Vector Vector::operator>>(Vector rhs) const {
+Vector Vector::operator >>(Vector rhs) const {
     return Vector(x + rhs.x, y - rhs.y);
 }
 /*
  * Subtracts x values points but adds y values
  */
-Vector Vector::operator<<(Vector rhs) const {
+Vector Vector::operator <<(Vector rhs) const {
     return Vector(x - rhs.x, y + rhs.y);
 }
 
-Vector Vector::operator*=(int num) const {
-    return Vector(x * num, y * num);
+/*
+ * Transforms Vector by constants
+ */
+Vector Vector::operator +(int constant) const {
+    return Vector(x + constant, y + constant);
 }
 
-Vector Vector::operator/=(int num) const {
-    return Vector(x / num, y / num);
+Vector Vector::operator -(int constant) const {
+    return Vector(x - constant, y - constant);
+}
+Vector Vector::operator *(int constant) const {
+    return Vector(x * constant, y * constant);
+}
+
+Vector Vector::operator /(int constant) const {
+    return Vector(x / constant, y / constant);
 }
 
 int Vector::getX() const {
@@ -106,7 +116,7 @@ void Quadtree::subdivide()
 {
     Vector nCentre = boundary.getCentre();
 
-    Vector nHalfSize = boundary.getHalfSize() /= 2;
+    Vector nHalfSize = boundary.getHalfSize() / 2;
 
     nw = new Quadtree(Node(Vector(nCentre - nHalfSize), nHalfSize));
     ne = new Quadtree(Node(Vector(nCentre >> nHalfSize), nHalfSize));
@@ -148,11 +158,11 @@ bool Quadtree::insert(Data d)
     {
         return true;
     }
-    if(sw->insert(d))
+    if(se->insert(d))
     {
         return true;
     }
-    if(se->insert(d))
+    if(sw->insert(d))
     {
         return true;
     }
@@ -163,28 +173,36 @@ bool Quadtree::insert(Data d)
 /**
  * Print the QuadTree
  */
-void Quadtree::print(int indent) {
-    //Generate indentations
-    for(int i = 0; i < indent; i++)
-        std::cout << '\t';
-    //Start outputting about the data at the current space in the tree
-    std::cout << "Data: " << std::endl;
-    for(auto data: objects){
-        for(int i = 0; i < indent; i++)
-            std::cout << '\t';
-        std::cout << "Pos " << data.getPos().getX() << ", "<< data.getPos().getX() << " data: " << data.load << std::endl;
+void Quadtree::print(int level) {
+    for(auto data: objects) {
+        std::cout << "Level " << level << std::endl;
+        std::cout << "Pos " << data.getPos().getX() << ", " << data.getPos().getY() << " data: " << data.load
+                  << std::endl;
     }
-    //indent further
-    for(int i = 0; i < indent; i++)
-        std::cout << '\t';
-    //print the children trees
-    std::cout << "Children: " << std::endl;
-    if (nw != nullptr)
-        nw->print(indent++);
-    if (ne != nullptr)
-        ne->print(indent++);
-    if (sw != nullptr)
-        sw->print(indent++);
-    if (se != nullptr)
-        se->print(indent);
+    level--;
+    if (level < 0) return;
+    if (ne != nullptr){
+        if(!ne->objects.empty()){
+            std::cout << "NE Children "<< std::endl;
+            ne->print(level);
+        }
+    }
+    if (nw != nullptr){
+        if(!nw->objects.empty()) {
+            std::cout << "NW Children " << std::endl;
+            nw->print(level);
+        }
+    }
+    if (se != nullptr){
+        if(!se->objects.empty()) {
+            std::cout << "SE Children " << std::endl;
+            se->print(level);
+        }
+    }
+    if (sw != nullptr){
+        if(!sw->objects.empty()) {
+            std::cout << "SW Children " << std::endl;
+            sw->print(level);
+        }
+    }
 }

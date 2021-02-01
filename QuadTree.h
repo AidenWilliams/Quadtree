@@ -27,8 +27,10 @@
     Vector operator >>(Vector) const;
     Vector operator <<(Vector) const;
     //Arithmetic  a vector by a constant
-    Vector operator *=(int) const;
-    Vector operator /=(int) const;
+    Vector operator +(int) const;
+    Vector operator -(int) const;
+    Vector operator *(int) const;
+    Vector operator /(int) const;
 };
 
 struct Data
@@ -52,6 +54,7 @@ private:
 
 public:
     explicit Node(Vector centre = Vector(), Vector halfSize = Vector()): centre(centre), halfSize(halfSize){};
+    //Below functions' return should be used for something
     //do not modify the Node instance they are called with. so can be made const
     [[nodiscard]] bool contains(Vector a) const;
 
@@ -88,7 +91,7 @@ public:
     //subdivides the tree into its four children
     void subdivide();
     //prints the tree to standard output
-    void print(int indent=0);
+    void print(int level=0);
 };
 
 #endif //QUADTREE_QUADTREE_H
